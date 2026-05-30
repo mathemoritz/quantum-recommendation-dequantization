@@ -1,24 +1,5 @@
 """
-baseline.py — Classical SVD baseline (Algorithm 1, GROUND TRUTH).
-
-Moritz owns this. It implements the standard, deployed-in-practice method
-that every other algorithm is scored against (Project-Draft.tex, Section 3):
-
-    1. Compute a rank-k truncated SVD of A to get the top-k right singular
-       vectors V_k = [v_1, ..., v_k].
-    2. Form the projector Pi_k = V_k V_k^T.
-    3. For a query user i, the denoised row is  A_hat[i,:] = A[i,:] @ Pi_k.
-    4. Recommend the products with the largest denoised entries.
-
-Cost: a rank-k truncated SVD is O(m n k) with iterative methods, and any
-method that reads the matrix is Omega(m n). This linear-in-the-data cost is
-exactly the baseline the quantum/Tang speedups are measured against.
-
-Public API (FROZEN — Tim's Tang code mirrors `topk` and `fit_subspace`):
-    fit_subspace(A, k) -> V_k            # (n, k), the TRUE top-k right subspace
-    denoise_row(A_row, V_k) -> x_hat     # (n,), projected (denoised) row
-    topk(A, i, k=8, t=10) -> idx         # top-t product indices for user i
-    recommend_all(A, k=8, t=10) -> R     # (m, t) top-t per user (for scoring)
+baseline.py — Classical SVD baseline
 """
 
 from __future__ import annotations
