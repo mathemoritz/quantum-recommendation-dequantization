@@ -1,8 +1,8 @@
 """
 make_table1.py — Assemble Table 1 and the spectrum sanity-check figure
 
-Run:  python3 make_table1.py
-Outputs: prints the table, writes figs/spectrum_check.png
+Just run:  python3 make_table1.py
+Output: prints the table, writes figs/spectrum_check.png
 """
 
 from __future__ import annotations
