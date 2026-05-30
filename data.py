@@ -1,26 +1,9 @@
 """
-data.py — Synthetic preference-matrix generator (SHARED MODULE).
+data.py — Synthetic preference-matrix generator
 
-This is the single source of truth for the input matrix used by the whole
-project. Moritz owns it. Tim (Tang's algorithm) and Sandra (KP write-up)
-import make_matrix from here; nobody should regenerate their own matrix.
-
-Model (per Project-Draft.tex, Section 6):
-    m = 2000 users, n = 600 products, k = 8 latent interest groups.
-    Each user belongs mostly to one group; each product appeals to one or two.
-    Clean signal is exactly rank <= k by construction (A0 = U @ W.T), with
-    ~5% additive noise, clipped to stay non-negative.
-
-The construction is a PLANTED low-rank model, so we know the ground-truth
-rank and (up to noise) the true subspace. That makes it a fair ground truth
-for scoring Tang's recovered subspace.
-
-Public API (FROZEN — do not change signatures without telling Tim & Sandra):
+Public API
     make_matrix(seed) -> A                      # (m, n) float64 ndarray
     make_matrix(seed, return_factors=True) -> (A, info)   # info dict for debugging
-
-Reproducibility: make_matrix(seed) is deterministic. The six project seeds
-(for the six-seed averages in the draft) are SEEDS = (0, 1, 2, 3, 4, 5).
 """
 
 from __future__ import annotations
