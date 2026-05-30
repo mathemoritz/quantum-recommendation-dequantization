@@ -1,11 +1,4 @@
-# Project code — interface contract
-
-Shared codebase for *Where Does the Quantum Advantage Go? Dequantizing the
-Quantum Recommendation Algorithm* (Physics 14N).
-
-**Owner of this layer: Moritz** (Algorithm 1 — the SVD baseline, the data
-pipeline, the scoring harness, and Table 1). These modules are the *ground
-truth* the rest of the project is measured against.
+# Physics 14N - Project code
 
 ## Files
 
@@ -15,13 +8,12 @@ truth* the rest of the project is measured against.
 | `baseline.py`    | Moritz | classical SVD baseline = ground-truth recommendations   |
 | `scoring.py`     | Moritz | precision@10 + subspace-overlap harness (method-agnostic)|
 | `make_table1.py` | Moritz | spectrum check + assembles Table 1                      |
-| `tang.py`        | **Tim**| Tang's algorithm — **to be written** (see contract below)|
+| `tang.py`        | Tim    | Tang's algorithm                                         |
 
-Sandra's KP write-up (Section 4) needs no code — it is conceptual (no quantum
-computer). She depends only on the shared **notation in Section 2**, not on
-these modules.
+Sandra's KP write-up has no code, it is conceptual (no quantum
+computer).
 
-## Frozen API (do not change without telling Tim & Sandra)
+## API
 
 ```python
 # data.py
@@ -40,14 +32,14 @@ subspace_overlap(V_k, V_hat) -> float     # (1/k)||V_k^T V_hat||_F^2 in [0,1]
 evaluate_method(method_fn, ...) -> dict    # mean/std precision & overlap
 ```
 
-## The seam — where Tim plugs in
+## For Tim
 
-Moritz owns the matrix, the baseline, and the scoring. Tim owns producing
-recommendations and an approximate subspace from Tang's algorithm. The single
-interface between them is one callable:
+Moritz creates the matrix, the SVD-baseline, and the scoring.
+Tim produces the recommendations and an approximate subspace from Tang's algorithm.
+For this use:
 
 ```python
-# tang.py  (Tim writes this)
+# tang.py
 def make_tang_method(p, q):
     """Return a method(A, k) -> (recs, V_hat) where
          recs  : (m, >=10) int array, per-user top-10 from Tang's sampler
@@ -60,11 +52,10 @@ def make_tang_method(p, q):
     return method
 ```
 
-Once `tang.py` exists, `python3 make_table1.py` fills the whole table
-automatically — the sweep rows come from Tim's method, the anchor row is
+Once you write `tang.py`, I created `python3 make_table1.py` which fills the whole table with the sweep rows come from Tim's method, the anchor row is
 Moritz's baseline.
 
-## Handoff checklist (the order things unblock)
+## Order of Tasks
 
 1. **`data.py` frozen** → Tim can develop/test Tang on the real input matrix. ✅
 2. **`scoring.py` frozen** → Tim can validate Tang against the baseline and
@@ -72,9 +63,9 @@ Moritz's baseline.
 3. **Section 2 notation circulated** → Sandra (Sec. 4, KP) and Tim (Sec. 5,
    Tang) write their prose on the shared symbols.
 
-## Sanity checks (all currently passing)
+## Sanity checks :)
 
-- `python3 data.py` — spectrum has a clear elbow after σ₈ (108× gap → k=8 right).
+- `python3 data.py` — spectrum has a clear elbow after SingVal8 (108× gap → k=8 right).
 - `python3 baseline.py` — V_k orthonormal; recommend_all is (2000, 10).
 - `python3 scoring.py` — baseline vs. itself = **1.000 / 1.000** (must be exact).
 - `python3 make_table1.py` — prints the table; baseline anchor row real,
