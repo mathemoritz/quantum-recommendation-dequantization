@@ -1,10 +1,5 @@
 """
-make_table1.py — Assemble Table 1 and the spectrum sanity-check figure.
-
-Moritz owns the full-SVD ANCHOR row (the 1.000 / 1.000 line) and the table
-formatting. The sweep rows (p = 20..640) come from running TIM's Tang method
-through scoring.evaluate_method — see the placeholder below. Drop Tim's
-`tang_method(A, k)` into tang.py and this script fills the whole table.
+make_table1.py — Assemble Table 1 and the spectrum sanity-check figure
 
 Run:  python3 make_table1.py
 Outputs: prints the table, writes figs/spectrum_check.png
